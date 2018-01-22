@@ -1,12 +1,24 @@
 const express = require('express');
+const app = express();
+const mongoose = require('mongoose');
+const morgan = require('morgan');
 
+app.use(morgan('common'));
 app.use(express.static('public'));
+
+const postRouter = require('./routers/postsRouter');
+const userRouter = require('./routers/userRouter');
+
+app.use('/posts', postRouter);
+app.use('/user', userRouter);
 
 let server;
 
 function runServer() {
 	const port = process.env.PORT || 8080;
 	return new Promise((resolve, reject) => {
+		//Put here because we're starting up server and connecting app to DB (used to store data)
+		mongoose.connect(process.env.DATABASE_URL);
 		server = app.listen(port, () => {
 			console.log(`Your app is listening on port ${port}`);
 			resolve(server);
