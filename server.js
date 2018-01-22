@@ -18,7 +18,7 @@ function runServer() {
 	const port = process.env.PORT || 8080;
 	return new Promise((resolve, reject) => {
 		//Put here because we're starting up server and connecting app to DB (used to store data)
-		mongoose.connect(process.env.DATABASE_URL);
+		mongoose.connect('mongodb://new-user:12345@ds257077.mlab.com:57077/dummy-db');
 		server = app.listen(port, () => {
 			console.log(`Your app is listening on port ${port}`);
 			resolve(server);

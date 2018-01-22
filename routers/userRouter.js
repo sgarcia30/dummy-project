@@ -1,14 +1,25 @@
 const express = require('express');
 const router = express.Router();
 
-const {Users} = require('../models/user.js');
+const User = require('../models/user.js');
 
 router.get('/', (req, res) => {
 	res.send('Made GET request');
 });
 
 router.post('/', (req, res) => {
-	res.send('Made POST request');
+	// putting something in the db using user model
+	const newUser = new User();
+	newUser.email = 'foo@bar.com';
+	newUser.password = 'all-the-secrets';
+	newUser.save(function (error, savedData) {
+		if (error) {
+			res.send(error);
+		}
+		else {
+			res.json(savedData);
+		}
+	});
 });
 
 router.put('/', (req, res) => {
